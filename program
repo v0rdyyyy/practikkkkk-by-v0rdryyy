@@ -1,0 +1,307 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp1
+{
+    internal class Program
+    {
+ 
+class Car
+        {
+            public string Brand;
+            public string Model;
+            public int Speed;
+
+            private static int totalCarsCreated = 0;
+
+            public Car()
+            {
+                Brand = "Unknown";
+                Model = "Unknown";
+                Speed = 0;
+                totalCarsCreated++;
+            }
+
+            public Car(string brand, string model, int speed)
+            {
+                Brand = brand;
+                Model = model;
+                Speed = speed;
+                totalCarsCreated++;
+            }
+
+            public static int GetTotalCars()
+            {
+                return totalCarsCreated;
+            }
+
+            public void PrintInfo()
+            {
+                Console.WriteLine($"Car: {Brand} {Model}, Speed: {Speed}");
+            }
+        }
+
+        class Student
+        {
+            public string Name;
+            public int Age;
+            public string Group;
+            public double AverageGrade;
+
+            private static int totalStudents = 0;
+
+            public Student()
+            {
+                Name = "Неизвестно";
+                Age = 18;
+                Group = "Не определена";
+                AverageGrade = 0;
+                totalStudents++;
+            }
+
+            public Student(string name) : this()
+            {
+                Name = name;
+            }
+
+            public Student(string name, int age) : this(name)
+            {
+                Age = age;
+            }
+
+            public Student(string name, int age, string group, double avg)
+            {
+                Name = name;
+                Age = age;
+                Group = group;
+                AverageGrade = avg;
+                totalStudents++;
+            }
+
+            public static int GetTotalStudents()
+            {
+                return totalStudents;
+            }
+
+            public void PrintInfo()
+            {
+                Console.WriteLine($"{Name}, {Age} лет, группа {Group}, средний балл {AverageGrade}");
+            }
+        }
+
+        class CurrencyConverter
+        {
+            public static double UsdToRubRate;
+            public static double EuroToRubRate;
+
+            public static void SetRates(double usdRate, double euroRate)
+            {
+                UsdToRubRate = usdRate;
+                EuroToRubRate = euroRate;
+            }
+
+            public static double ConvertUsdToRub(double usd)
+            {
+                return usd * UsdToRubRate;
+            }
+
+            public static double ConvertEuroToRub(double euro)
+            {
+                return euro * EuroToRubRate;
+            }
+        }
+
+        class Product
+        {
+            public string Name;
+            public double Price;
+            public int Quantity;
+
+            private static double totalRevenue = 0;
+
+            public Product(string name, double price, int quantity)
+            {
+                Name = name;
+                Price = price;
+                Quantity = quantity;
+            }
+
+            public void Sell(int soldCount)
+            {
+                if (soldCount <= Quantity)
+                {
+                    totalRevenue += soldCount * Price;
+                    Quantity -= soldCount;
+                    Console.WriteLine($"Продано {soldCount} шт. товара {Name}");
+                }
+                else
+                {
+                    Console.WriteLine("Недостаточно товара!");
+                }
+            }
+
+            public static double GetTotalRevenue()
+            {
+                return totalRevenue;
+            }
+
+            public static void ResetRevenue()
+            {
+                totalRevenue = 0;
+            }
+
+            public void PrintInfo()
+            {
+                Console.WriteLine($"{Name} - Цена: {Price}, Остаток: {Quantity}");
+            }
+        }
+
+        class Player
+        {
+            public string Name;
+            public int Score;
+
+            private static int highScore = 0;
+            private static string recordHolder = "Нет";
+
+            public Player(string name)
+            {
+                Name = name;
+                Score = 0;
+            }
+
+            public void AddPoints(int points)
+            {
+                Score += points;
+            }
+
+            public void CheckRecord()
+            {
+                if (Score > highScore)
+                {
+                    highScore = Score;
+                    recordHolder = Name;
+                }
+            }
+
+            public static void PrintRecord()
+            {
+                Console.WriteLine($"Рекорд: {highScore}, Игрок: {recordHolder}");
+            }
+
+            public void PrintInfo()
+            {
+                Console.WriteLine($"{Name} - Очки: {Score}");
+            }
+        }
+
+        class Program
+        {
+            static void Main()
+            {
+                Console.WriteLine("===== Задание 1 =====");
+                Car c1 = new Car();
+                Car c2 = new Car("BMW", "M5", 300);
+                Car c3 = new Car("Audi", "A6", 250);
+
+                c1.PrintInfo();
+                c2.PrintInfo();
+                c3.PrintInfo();
+                Console.WriteLine("Всего машин: " + Car.GetTotalCars());
+
+
+                Console.WriteLine("\n===== Задание 2 =====");
+                Student s1 = new Student();
+                Student s2 = new Student("Иван");
+                Student s3 = new Student("Петр", 20);
+                Student s4 = new Student("Анна", 19, "CS-101", 4.7);
+
+                s1.PrintInfo();
+                s2.PrintInfo();
+                s3.PrintInfo();
+                s4.PrintInfo();
+                Console.WriteLine("Всего студентов: " + Student.GetTotalStudents());
+
+
+                Console.WriteLine("\n===== Задание 3 =====");
+                CurrencyConverter.SetRates(90, 98);
+
+                Console.Write("Введите доллары: ");
+                double usd = double.Parse(Console.ReadLine());
+
+                Console.Write("Введите евро: ");
+                double eur = double.Parse(Console.ReadLine());
+
+                Console.WriteLine($"В рублях: {CurrencyConverter.ConvertUsdToRub(usd)}");
+                Console.WriteLine($"В рублях: {CurrencyConverter.ConvertEuroToRub(eur)}");
+
+
+                Console.WriteLine("\n===== Задание 4 =====");
+                Product p1 = new Product("Хлеб", 50, 10);
+                Product p2 = new Product("Молоко", 80, 5);
+                Product p3 = new Product("Сыр", 200, 3);
+
+                p1.PrintInfo();
+                p2.PrintInfo();
+                p3.PrintInfo();
+
+                for (int i = 0; i < 3; i++)
+                {
+                    Console.WriteLine("Что продать? (1-Хлеб, 2-Молоко, 3-Сыр)");
+                    int choice = int.Parse(Console.ReadLine());
+
+                    Console.Write("Сколько продать: ");
+                    int count = int.Parse(Console.ReadLine());
+
+                    switch (choice)
+                    {
+                        case 1: p1.Sell(count); break;
+                        case 2: p2.Sell(count); break;
+                        case 3: p3.Sell(count); break;
+                    }
+
+                    Console.WriteLine("Выручка: " + Product.GetTotalRevenue());
+                }
+
+                Console.WriteLine("Итоговая выручка: " + Product.GetTotalRevenue());
+
+
+                Console.WriteLine("\n===== Задание 5 =====");
+                Player[] players =
+                {
+                 new Player("Alex"),
+                 new Player("John"),
+                 new Player("Kate"),
+                 new Player("Mike")
+        };
+
+                Random rnd = new Random();
+
+                Console.WriteLine("1 - случайные очки, 2 - ввод вручную");
+                int mode = int.Parse(Console.ReadLine());
+
+                foreach (var player in players)
+                {
+                    int points;
+
+                    if (mode == 1)
+                    {
+                        points = rnd.Next(0, 101);
+                        Console.WriteLine($"{player.Name} получает {points}");
+                    }
+                    else
+                    {
+                        Console.Write($"Введите очки для {player.Name}: ");
+                        points = int.Parse(Console.ReadLine());
+                    }
+
+                    player.AddPoints(points);
+                    player.CheckRecord();
+                }
+
+                Player.PrintRecord();
+            }
+        }
